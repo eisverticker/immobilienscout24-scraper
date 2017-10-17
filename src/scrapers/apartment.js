@@ -1,5 +1,12 @@
 const cheerio = require('cheerio');
 
+/**
+ * @author eisverticker
+ */
+function checkForWBS(text) {
+    return text.indexOf('WBS') !== -1 || text.indexOf('Wohnberechtigungsschein') !== -1;
+}
+
 const parseArea = (text) => {
     const areaRegex = /(\d*.\d*) m²/.exec(text);
     return areaRegex ? parseFloat(areaRegex[1].replace(',', '.')) : null;
@@ -36,7 +43,7 @@ const scrapImages = (sliderBlock) => {
         return [];
     }
     return sliderBlock.find('img.sp-image').map((i, img) => img.attribs['data-src']).get();
-}
+};
 
 const parseAvailableFrom = (text) => {
     if (text) {
@@ -69,12 +76,14 @@ exports.scrap = (page) => {
 
     let apartment = {};
 
-    apartment.id = $('[name="exposeId"]').val();
+    // this does not work anymore (let's try to get the id from the url)
+    // apartment.id = $('[name="exposeId"]').val();
     apartment.rentBase = parsePrice($('.is24qa-kaltmiete').text());
     apartment.rentTotal = parsePrice($('.is24qa-gesamtmiete').text());
     apartment.area = parseArea($('.is24qa-wohnflaeche-ca').text().replace(',', '.'));
     apartment.rooms = parseInt($('.is24qa-zi').text(), 10);
     apartment.images = scrapImages($('#slideImageContainer'));
+    apartment.wbsOccurence = checkForWBS(page);
 
     const availability = parseAvailableFrom($('.is24qa-bezugsfrei-ab').text());
     apartment = Object.assign(apartment, availability);

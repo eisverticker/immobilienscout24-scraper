@@ -1,11 +1,17 @@
 const cheerio = require('cheerio');
 
+const parseId = (text) => {
+    const areaRegex = /(\d{8,9})/.exec(text);
+    return areaRegex ? parseFloat(areaRegex[1].replace(',', '.')) : null;
+};
+
 const scrapApartment = ($apartmentNode) => {
     const apartment = {};
 
     const titleNode = $apartmentNode.find('.resultlist-title');
     apartment.title = titleNode.text();
     apartment.url = titleNode.attr('href').replace('//', 'https://');
+    apartment.id = parseId(apartment.url);
 
     return apartment;
 };

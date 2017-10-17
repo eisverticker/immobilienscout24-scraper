@@ -18,16 +18,15 @@ const getListUrl = (city, page) => {
 
 const scrapApartment = url => new Promise((resolve, reject) => {
     request(url, (error, response, body) => {
-        if (error) {
-            reject(error);
-        }
+        if (error) return reject(error);
+
         if (response.statusCode !== 200) {
-            reject(`Invalid response: ${response.statusCode}`);
+            reject(new Error(`Invalid response: ${response.statusCode}`));
         }
         const apartment = apartmentScraper.scrap(body);
         apartment.url = url;
 
-        resolve(apartment);
+        return resolve(apartment);
     });
 });
 
@@ -41,16 +40,15 @@ const scrapCity = (city, page = 1) => new Promise((resolve, reject) => {
     }
 
     request(url, (error, response, body) => {
-        if (error) {
-            reject(error);
-        }
+        if (error) return reject(error);
+
         if (response.statusCode !== 200) {
-            reject(`Invalid response: ${response.statusCode}`);
+            reject(new Error(`Invalid response: ${response.statusCode}`));
         }
         const apartments = listScraper.scrap(body);
         const apartmentPromises = apartments.items.map(apartment => scrapApartment(apartment.url));
 
-        resolve(Promise.all(apartmentPromises).then(items => ({
+        return resolve(Promise.all(apartmentPromises).then(items => ({
             items,
             pagination: apartments.pagination,
         })));
