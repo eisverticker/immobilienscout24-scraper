@@ -13,7 +13,7 @@ function checkForWBS(textRaw) {
       text.indexOf('wbs wird nicht') !== -1 ||
       text.indexOf('wohnberechtigungsschein wird nicht') ||
       text.indexOf('wbs ist nicht') !== -1 ||
-      text.indexOf('wohnberechtigungsschein ist nicht')
+      text.indexOf('wohnberechtigungsschein ist nicht') !== -1
     ) {
       return "no";
     }else{
