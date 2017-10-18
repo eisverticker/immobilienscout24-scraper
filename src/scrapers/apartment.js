@@ -3,8 +3,8 @@ const cheerio = require('cheerio');
 /**
  * @author eisverticker
  */
-function checkForWBS(text) {
-  let text = text.toLowerCase();
+function checkForWBS(textRaw) {
+  const text = textRaw.toLowerCase();
   if(text.indexOf('wbs') !== -1 || text.indexOf('wohnberechtigungsschein') !== -1) {
     if(
       text.indexOf('kein wbs') !== -1 ||
