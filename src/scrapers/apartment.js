@@ -11,7 +11,7 @@ function checkForWBS(textRaw) {
       text.indexOf('kein wohnberechtigungsschein') !== -1 ||
       text.indexOf('nicht wbs') !== -1 ||
       text.indexOf('wbs wird nicht') !== -1 ||
-      text.indexOf('wohnberechtigungsschein wird nicht') ||
+      text.indexOf('wohnberechtigungsschein wird nicht') !== -1 ||
       text.indexOf('wbs ist nicht') !== -1 ||
       text.indexOf('wohnberechtigungsschein ist nicht') !== -1
     ) {
