@@ -4,7 +4,23 @@ const cheerio = require('cheerio');
  * @author eisverticker
  */
 function checkForWBS(text) {
-    return text.indexOf('WBS') !== -1 || text.indexOf('Wohnberechtigungsschein') !== -1;
+  if(text.indexOf('WBS') !== -1 || text.indexOf('Wohnberechtigungsschein') !== -1) {
+    if(
+      text.indexOf('kein WBS') !== -1 ||
+      text.indexOf('kein Wohnberechtigungsschein') !== -1 ||
+      text.indexOf('nicht WBS') !== -1 ||
+      text.indexOf('WBS wird nicht') !== -1 ||
+      text.indexOf('Wohnberechtigungsschein wird nicht') ||
+      text.indexOf('WBS ist nicht') !== -1 ||
+      text.indexOf('Wohnberechtigungsschein ist nicht')
+    ) {
+      return "no";
+    }else{
+      return "yes"
+    }
+  }else{
+    return "unknown";
+  }
 }
 
 const parseArea = (text) => {
