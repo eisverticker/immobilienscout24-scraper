@@ -1,9 +1,48 @@
 const cheerio = require('cheerio');
+const Enum = require('enum');
+
+const SearchResult = new Enum(['NotFound', 'PrefixFound', 'Found', 'SuffixFound']);
+
+function checkSubstring(text, term, prefixList, suffixList){
+  if(text.indexOf(term) === -1) return SearchResult.NotFound;
+
+  // check prefixes
+  if(prefixList.reduce(
+    (acc, prefix) => acc || text.indexOf(prefix + term) !== -1
+  ,false)) return SearchResult.PrefixFound;
+
+  // check suffixes
+  if(suffixList.reduce(
+    (acc, suffix) => acc || text.indexOf(term + suffix) !== -1
+  ,false)) return SearchResult.SuffixFound;
+
+  // there seems to be a normal occurence of the term in text
+  return SearchResult.Found;
+}
 
 /**
  * @author eisverticker
  */
-function checkForWBS(textRaw) {
+function checkForWBS(textRaw){
+  const text = textRaw.toLowerCase();
+
+  const results = [
+    checkSubstring(text, "wbs", ["kein ", "nicht "], [" wird nicht", " ist nicht"]),
+    checkSubstring(text, "wohnberechtigungsschein", ["kein ", "nicht "], [" wird nicht", " ist nicht"])
+  ];
+
+  if(results.indexOf(SearchResult.PrefixFound) !== -1 || results.indexOf(SearchResult.SuffixFound) !== -1){
+    return "notRequired";
+  }else if(results.indexOf(SearchResult.NotFound) !== -1 && results.indexOf(SearchResult.NotFound) !== -1){
+    return "notFound";
+  }else if(results.indexOf(SearchResult.NotFound) !== -1 || results.indexOf(SearchResult.NotFound) !== -1){
+    return "unknown";
+  }else{
+    return "required";
+  }
+}
+
+/*function checkForWBS(textRaw) {
   const text = textRaw.toLowerCase();
   if(text.indexOf('wbs') !== -1 || text.indexOf('wohnberechtigungsschein') !== -1) {
     if(
@@ -22,7 +61,7 @@ function checkForWBS(textRaw) {
   }else{
     return "unknown";
   }
-}
+}*/
 
 const parseArea = (text) => {
     const areaRegex = /(\d*.\d*) m²/.exec(text);
