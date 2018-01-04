@@ -1,6 +1,5 @@
 {
     "Berlin": "berlin,berlin",
-    "Potsdam": "brandenburg,potsdam",
     "Bonn": "nordrhein-westfalen,bonn",
     "Bremen": "bremen,bremen",
     "Chemnitz": "sachsen,chemnitz",
@@ -14,11 +13,13 @@
     "Gelsenkirchen": "nordrhein-westfalen,gelsenkirchen",
     "Hamburg": "hamburg,hamburg",
     "Hannover": "niedersachsen,hannover",
+    "Jena": "thueringen,jena",    
     "Köln": "nordrhein-westfalen,koeln",
     "Leipzig": "sachsen,leipzig",
     "München": "bayern,muenchen",
     "Mönchengladbach": "nordrhein-westfalen,moenchengladbach",
     "Nürnberg": "bayern,nuernberg",
+    "Potsdam": "brandenburg,potsdam",
     "Stuttgart": "baden-wuerttemberg,stuttgart",
     "Wuppertal": "nordrhein-westfalen,wuppertal"
 }
